@@ -4,6 +4,15 @@
     ViewBag.Title = "Lista de estados";
 }
 
+@if (TempData["Menssage"] is not null)
+{
+    <div class="alert alert-cTempData["MenssageType"] alert-dismissible fade show" >
+        @TempData["Menssage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" arial-label="Close"></button>
+    </div>
+}
+
+
 <div class="card">
     <div class="card-header">
         <span class="card-title fs-5">
@@ -23,7 +32,7 @@
                     <th>@Html.DisplayNameFor(model => model.Name)</th>
                     <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
                     <th>@Html.DisplayNameFor(model => model.Color)</th>
-                    <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                    <th>@Html.DisplayNameFor(model => model.CreatedAt)</th> 
                     <th>@Html.DisplayNameFor(model => model.UpdatedAt)</th>
                     <th>Opciones</th>
                 </tr>
@@ -37,28 +46,76 @@
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
                             <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
                             <td>
-                                <div style="width: 30px; height: 30px; border: 1px solid #; border-radius: 5px; background: @Html.DisplayFor(modelItem => item.Color)">
+                                <div style="width: 30px; height: 30px; border: 1px solid #c0c0c0; border-radius: 5px; background: @Html.DisplayFor(modelItem => item.Color)">
                                 </div>
-                            </td>
-                            <td>@Html.DisplayFor(modelItem => item.Color)</td>
-                            <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
-                            <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
+                            </td> 
                             <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                             <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
                             <td class="text-center">
                                 <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Editar</a>
                                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Detalles</a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+
+
+                                    <button type="button"
+                                            class="btn btn-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-targer="#deleteModal"
+                                            data-id="@item.Id ">
+                                        Eliminar
+                                    </button>
+
                             </td>
                         </tr>
                     }
                 } else
                 {
                     <tr>
-                        <td colspan="6" class="text-center">No hay registros disponibles</td>
+                        <td colspan="6">
+                            No hay registros
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro de eliminar este estado?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                
+                <form id="form-delete" method="post">
+
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function() {
+            $('#deleteModel').on('show.bs.model', function(event){
+                const button = $(event.relatedTarget) //que activo el modal
+                const id = button.data('id') //extraer la data-id
+
+                $('#form-delete').attr('action',`/Estado/Delete/${id}` )
+
+            });
+        });
+    </script>
+}

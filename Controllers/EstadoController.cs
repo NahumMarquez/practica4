@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Practica4.Data;
 using Practica4.Models;
 
@@ -33,9 +34,113 @@ namespace Practical.Controllers
 
                 _context.Estados.Add(estado);
                 _context.SaveChanges();
+
+                //MENSAJE DE EXITO
+
+                TempData["Menssage"] = "El estado se ha creado correctamente";
+                TempData["MenssageType"] = "success";
+
                 return RedirectToAction("Index");
+            }
+
+            //MENSAJE DE ERROR
+
+            TempData["Menssage"] = "Error al crear el estado. Verifica los datos";
+            TempData["MenssageType"] = "error";
+
+            return View(estado);
+        }
+
+        public IActionResult Details(int? id)
+        { 
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            var estado = _context.Estados.Find(id);
+            if (estado == null)
+            {
+                return NotFound();
             }
             return View(estado);
         }
+
+        public IActionResult Edit(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            var estado = _context.Estados.Find(id);
+            if (estado == null)
+            {
+                return NotFound();
+            }
+            return View(estado);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Edit(int id, Estado estado)
+        {
+            if (id != estado.Id)
+            {
+                return NotFound();
+            }
+
+            var current = _context.Estados.Find(id);
+
+            if (current == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                current.Name = estado.Name;
+                current.Descripcion = estado.Descripcion;
+                current.Color = estado.Color;
+                current.UpdatedAt = DateTime.Now;
+
+               _context.Update(current);
+               _context.SaveChanges();
+
+                // Mensaje de éxito
+                TempData["Message"] = "El estado se ha actualizado correctamente.";
+                TempData["MessageType"] = "success";
+                return RedirectToAction("Index");
+            }
+            // Mensaje de error
+            TempData["Message"] = "Error al actualizar el estado. Verifica los datos";
+            TempData["MessageType"] = "error";
+            return View(estado);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            var estado = _context.Estados.Find(id);
+            if (estado == null)
+            {
+                return NotFound();
+            }
+
+            _context.Estados.Remove(estado);
+            _context.SaveChanges();
+
+            // Mensaje de éxito
+            TempData["Message"] = "El estado se ha eliminado correctamente.";
+            TempData["MessageType"] = "success";
+            return RedirectToAction("Index");
+        }
+
     }
 }
