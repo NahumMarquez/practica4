@@ -1,0 +1,84 @@
+﻿@model Practica4.Models.Evento
+
+@{
+    ViewData["Title"] = "Detalles de evento";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <span class="card-title fs-5">
+            Detalles del estado
+        </span>
+    </div>
+
+    <div class="card-body">
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(Model => Model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayNameFor(Model => Model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(Model => Model.Descripcion)
+            </dt>
+
+            <dd>
+                @Html.DisplayNameFor(Model => Model.Descripcion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(Model => Model!.EstadoId)
+            </dt>
+
+            <dd>
+                @Html.DisplayNameFor(Model => Model!.Estado!.Name)
+                <div style="width: 30px; height: 30px; border: 1px solid #c0c0c0; border-radius: 5px; background: @Html.DisplayFor(model => model!.Estado!.Color)">
+                </div>
+
+
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(Model => Model.StartDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayNameFor(Model => Model.StartDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(Model => Model.EndDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayNameFor(Model => Model.EndDate)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(Model => Model.CreatedAt)
+            </dt>
+
+            <dd>
+                @Html.DisplayNameFor(Model => Model.CreatedAt)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(Model => Model.UpdatedAt)
+            </dt>
+
+            <dd>
+                @Html.DisplayNameFor(Model => Model.UpdatedAt)
+            </dd>
+
+        </dl>
+    </div>
+
+    <div class="card-footer">
+        <a asp-action="Edit" class="btn btn-primary" asp-rout-id="@Model?.Id">Editar</a>
+        <a asp-action="Index" class="btn btn-secondary">Regresar</a>
+    </div>
+</div>

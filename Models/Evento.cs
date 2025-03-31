@@ -30,13 +30,13 @@ namespace Practica4.Models
         [ForeignKey("EstadoId")]
         public int EstadoId { get; set; }
 
-        public List<Estado>? Estado { get; set; }
+        public Estado? Estado { get; set; }
 
         [Display(Name ="Create en")]
         public DateTime? CreatedAt { get; set; }
 
         [Display(Name ="Actualizado en")]
-        public DateTime? UpdateAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }
 
